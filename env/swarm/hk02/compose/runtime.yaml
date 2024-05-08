@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+  #Nats
+  nats:
+    image: nats:latest
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
+  # Redis
+  redis:
+    image: redis:alpine
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
+  # Memcached
+  memcached:
+    image: memcached:alpine
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
+networks:
+  herewe-net:
+    external: true
