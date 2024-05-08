@@ -1,0 +1,22 @@
+server:
+
+metrics:
+
+logs:
+  configs:
+  - name: loki
+    clients:
+      - url: http://env_loki:3100/loki/api/v1/push
+
+traces:
+  configs:
+  - name: default
+    remote_write:
+      - endpoint: env_tempo:4317
+        insecure: true
+    receivers:
+      jaeger:
+        protocols:
+          grpc:
+
+integrations:

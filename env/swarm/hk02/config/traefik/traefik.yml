@@ -1,0 +1,42 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+serversTransport:
+  maxIdleConnsPerHost: 256
+entryPoints:
+  web:
+    address: :80
+  websecure:
+    address: :443
+  metrics:
+    address: :8082
+providers:
+  swarm:
+    exposedByDefault: false
+    network: herewe-net
+    watch: true
+certificatesResolvers:
+  le:
+    acme:
+      email: sicky@sicky.tld
+      storage: /data/acme/acme.json
+      httpChallenge:
+        entryPoint: web
+log:
+  format: json
+  filePath: /data/log/traefik.log
+accessLog:
+  format: json
+  bufferingSize: 5
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+tracing:
+  otlp:
+    grpc:
+      endpoint: env_agent:4317
+api:
+  dashboard: true

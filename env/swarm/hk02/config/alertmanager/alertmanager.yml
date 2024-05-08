@@ -1,0 +1,16 @@
+route:
+  group_by: ["alertname"]
+  receiver: "slack"
+
+receivers:
+  - name: "slack"
+    slack_configs:
+      - channel: "#ops"
+        api_url: "https://hooks.slack.com/services/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"
+        icon_url: "https://cdn-icons-png.flaticon.com/512/5222/5222448.png"
+        color: '{{ template "slack.color" . }}'
+        title: '{{ template "slack.title" . }}'
+        text: '{{ template "slack.text" . }}'
+
+templates:
+  - /templates/*.tmpl
