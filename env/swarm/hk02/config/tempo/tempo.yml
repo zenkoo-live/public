@@ -38,9 +38,9 @@ storage:
   trace:
     backend: local
     wal:
-      path: /tmp/tempo/wal
+      path: /data/tempo/wal
     local:
-      path: /tmp/tempo/blocks
+      path: /data/tempo/blocks
     s3:
       bucket: tempo
       endpoint: env_minio
