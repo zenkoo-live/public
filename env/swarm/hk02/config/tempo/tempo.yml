@@ -36,7 +36,7 @@ metrics_generator:
 
 storage:
   trace:
-    backend: s3
+    backend: local
     wal:
       path: /data/tempo/wal
     local:
