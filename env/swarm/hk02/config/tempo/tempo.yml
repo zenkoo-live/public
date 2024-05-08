@@ -36,11 +36,17 @@ metrics_generator:
 
 storage:
   trace:
-    backend: local
+    backend: s3
     wal:
       path: /data/tempo/wal
     local:
       path: /data/tempo/blocks
+    s3:
+      bucket: tempo
+      endpoint: env_minio:9000
+      insecure: true
+      access_key: u2dCk0S5RW5QCtT1dtqQ
+      secret_key: xKKQ1xde1Y4cGANWSE6fUAOnpDFarOxbeJQgBwjN
 
 overrides:
   defaults:
