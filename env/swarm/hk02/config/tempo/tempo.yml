@@ -43,7 +43,7 @@ storage:
       path: /data/tempo/blocks
     s3:
       bucket: tempo
-      endpoint: env_minio
+      endpoint: "env_minio:9000"
       insecure: true
       access_key: N6VJd3SmJmSWMeI91XTo
       secret_key: Hr6qXCjMhrIFebiXypYhG2u9IMxnDnUgYEWFNGqK
