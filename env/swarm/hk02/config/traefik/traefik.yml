@@ -38,5 +38,6 @@ tracing:
   otlp:
     grpc:
       endpoint: env_agent:4317
+      insecure: true
 api:
   dashboard: true
