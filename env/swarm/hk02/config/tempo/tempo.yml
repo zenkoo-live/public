@@ -37,10 +37,10 @@ metrics_generator:
 storage:
   trace:
     backend: local
-    #wal:
-    #  path: /data/tempo/wal
-    #local:
-    #  path: /data/tempo/blocks
+    wal:
+      path: /tmp/tempo/wal
+    local:
+      path: /tmp/tempo/blocks
     s3:
       bucket: tempo
       endpoint: env_minio
