@@ -31,6 +31,119 @@ services:
         - "traefik.http.routers.svc_web_viewer-http.middlewares=svc_web_viewer-redirectscheme"
         - "traefik.http.middlewares.svc_web_viewer-redirectscheme.redirectscheme.scheme=https"
         - "traefik.http.middlewares.svc_web_viewer-redirectscheme.redirectscheme.permanent=true"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_web_streamer:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.web.streamer:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.web.streamer
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.svc_web_streamer.loadbalancer.server.port=9990"
+        # HTTP
+        - "traefik.http.routers.svc_web_streamer-http.rule=Host(`api.streamer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.svc_web_streamer-http.service=svc_web_streamer"
+        - "traefik.http.routers.svc_web_streamer-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.svc_web_streamer-https.tls.certresolver=le"
+        - "traefik.http.routers.svc_web_streamer-https.rule=Host(`api.streamer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.svc_web_streamer-https.service=svc_web_streamer"
+        - "traefik.http.routers.svc_web_streamer-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.svc_web_streamer-http.middlewares=svc_web_streamer-redirectscheme"
+        - "traefik.http.middlewares.svc_web_streamer-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.svc_web_streamer-redirectscheme.redirectscheme.permanent=true"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_web_dashboard:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.web.dashboard:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.web.dashboard
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.svc_web_dashboard.loadbalancer.server.port=9990"
+        # HTTP
+        - "traefik.http.routers.svc_web_dashboard-http.rule=Host(`api.dashboard.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.svc_web_dashboard-http.service=svc_web_dashboard"
+        - "traefik.http.routers.svc_web_dashboard-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.svc_web_dashboard-https.tls.certresolver=le"
+        - "traefik.http.routers.svc_web_dashboard-https.rule=Host(`api.dashboard.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.svc_web_dashboard-https.service=svc_web_dashboard"
+        - "traefik.http.routers.svc_web_dashboard-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.svc_web_dashboard-http.middlewares=svc_web_dashboard-redirectscheme"
+        - "traefik.http.middlewares.svc_web_dashboard-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.svc_web_dashboard-redirectscheme.redirectscheme.permanent=true"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  # Micro services
+  svc_infra_setting:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.infra.setting:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.infra.setting
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_biz_account:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.biz.account:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.biz.account
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
 
 networks:
   herewe-net:
