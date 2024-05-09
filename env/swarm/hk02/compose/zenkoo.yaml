@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   # BFFs
-  svc.web.viewer:
+  svc_web_viewer:
     image: hkccr.ccs.tencentyun.com/zenkoo/svc.web.viewer:latest
     networks:
       - herewe-net
