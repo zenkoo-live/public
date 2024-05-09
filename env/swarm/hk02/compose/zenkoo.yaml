@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  # BFFs
+  svc.web.viewer:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.web.viewer:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.web.viewer
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.svc_web_viewer.loadbalancer.server.port=9990"
+        # HTTP
+        - "traefik.http.routers.svc_web_viewer-http.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.svc_web_viewer-http.service=svc_web_viewer"
+        - "traefik.http.routers.svc_web_viewer-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.svc_web_viewer-https.tls.certresolver=le"
+        - "traefik.http.routers.svc_web_viewer-https.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.svc_web_viewer-https.service=svc_web_viewer"
+        - "traefik.http.routers.svc_web_viewer-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.svc_web_viewer-http.middlewares=svc_web_viewer-redirectscheme"
+        - "traefik.http.middlewares.svc_web_viewer-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.svc_web_viewer-redirectscheme.redirectscheme.permanent=true"
+
+networks:
+  herewe-net:
+    external: true
