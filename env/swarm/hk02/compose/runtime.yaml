@@ -16,6 +16,22 @@ services:
       restart_policy:
         condition: on-failure
 
+  # Nats exporter
+  nats-exporter:
+    image: noenv/nats-exporter:latest
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
   # Redis
   redis:
     image: redis:alpine
@@ -32,11 +48,118 @@ services:
       restart_policy:
         condition: on-failure
 
+  # Redis exporter
+  redis-exporter:
+    image: oliver006/redis-exporter:latest
+    networks:
+      - herewe-net
+    environment:
+      REDIS_ADDR: redis://runtime_redis:6379
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
   # Memcached
   memcached:
     image: memcached:alpine
     networks:
       - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
+  # Memcached exporter
+  memcached-exporter:
+    image: prom/memcached-exporter:latest
+    command: "--memcached.address=runtime_memcached:11211"
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
+  # Consul
+  consul:
+    image: hashicorp/consul:latest
+    volumes:
+      - /data/zenkoo/storage/consul/data:/consul/data
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.consul.loadbalancer.server.port=9001"
+        # HTTP
+        - "traefik.http.routers.consul-http.rule=Host(`consul.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.consul-http.service=minio"
+        - "traefik.http.routers.consul-http.entrypoints=web"
+        # HTTPS
+        - "traefik.http.routers.consul-https.tls.certresolver=le"
+        - "traefik.http.routers.consul-https.rule=Host(`consul.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.consul-https.service=consul"
+        - "traefik.http.routers.consul-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.consul-http.middlewares=consul-redirectscheme"
+        - "traefik.http.middlewares.consul-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.consul-redirectscheme.redirectscheme.permanent=true"
+        # Auth
+        - "traefik.http.routers.consul-https.middlewares=consul-auth"
+        - "traefik.http.middlewares.consul-auth.basicauth.users=herewe:$$apr1$$jLdnAN0h$$W7algjI5nCLeSUlyz9cu.0" # hello.herewe
+
+  # Consul exporter
+  consul-exporter:
+    image: prom/consul-exporter:latest
+    command: "--consul.server=runtime_consul:8500"
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+
+  # PostgreSQL exporter
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    networks:
+      - herewe-net
+    environment:
+      DATA_SOURCE_NAME: "postgres://postgres:hello.herewe@172.18.0.1:5432/postgres?sslmode=disable"
     deploy:
       mode: global
       placement:
