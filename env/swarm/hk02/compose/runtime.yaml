@@ -17,20 +17,20 @@ services:
         condition: on-failure
 
   # Nats exporter
-  nats-exporter:
-    image: noenv/nats-exporter:latest
-    networks:
-      - herewe-net
-    deploy:
-      mode: global
-      placement:
-        constraints:
-          - node.role == manager
-      update_config:
-        parallelism: 1
-        delay: 2s
-      restart_policy:
-        condition: on-failure
+  # nats-exporter:
+  #   image: noenv/nats-exporter:latest
+  #   networks:
+  #     - herewe-net
+  #   deploy:
+  #     mode: global
+  #     placement:
+  #       constraints:
+  #         - node.role == manager
+  #     update_config:
+  #       parallelism: 1
+  #       delay: 2s
+  #     restart_policy:
+  #       condition: on-failure
 
   # Redis
   redis:
