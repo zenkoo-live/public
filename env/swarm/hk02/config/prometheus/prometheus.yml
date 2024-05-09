@@ -40,6 +40,11 @@ scrape_configs:
     static_configs:
       - targets: ["runtime_postgres-exporter:9116"]
 
+  - job_name: "minio"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["env_minio:9000"]
+
   - job_name: "consul"
     scrape_interval: 5s
     static_configs:

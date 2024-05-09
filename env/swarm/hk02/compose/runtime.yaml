@@ -50,7 +50,7 @@ services:
 
   # Redis exporter
   redis-exporter:
-    image: oliver006/redis-exporter:latest
+    image: oliver006/redis_exporter:latest
     networks:
       - herewe-net
     environment:
