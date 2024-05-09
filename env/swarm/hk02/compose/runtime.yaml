@@ -118,7 +118,7 @@ services:
         condition: on-failure
       labels:
         - "traefik.enable=true"
-        - "traefik.http.services.consul.loadbalancer.server.port=9001"
+        - "traefik.http.services.consul.loadbalancer.server.port=8500"
         # HTTP
         - "traefik.http.routers.consul-http.rule=Host(`consul.env.zenkoo.herewe.tech`)"
         - "traefik.http.routers.consul-http.service=minio"
