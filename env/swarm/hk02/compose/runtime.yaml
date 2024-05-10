@@ -102,11 +102,13 @@ services:
   # Consul
   consul:
     image: hashicorp/consul:latest
-    command: ["agent", "-server", "-ui", "-bind", "0.0.0.0", "-client", "0.0.0.0", "-bootstrap", "-bootstrap-expect", "1"]
+    command: ["agent", "-server", "-ui", "-client", "0.0.0.0", "-bootstrap", "-bootstrap-expect", "1"]
     volumes:
       - /data/zenkoo/storage/consul/data:/consul/data
     networks:
       - herewe-net
+    environment:
+      CONSUL_BIND_INTERFACE: eth0
     deploy:
       mode: global
       placement:
