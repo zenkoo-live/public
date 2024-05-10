@@ -102,6 +102,7 @@ services:
   # Consul
   consul:
     image: hashicorp/consul:latest
+    command: ["agent", "-server", "-ui", "-bind", "0.0.0.0", "-client", "0.0.0.0", "-bootstrap", "-bootstrap-expect", "1"]
     volumes:
       - /data/zenkoo/storage/consul/data:/consul/data
     networks:
