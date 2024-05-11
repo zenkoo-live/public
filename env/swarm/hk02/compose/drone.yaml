@@ -35,7 +35,7 @@ services:
         # # HTTPS
         - "traefik.http.routers.drone-https.tls.certresolver=le"
         - "traefik.http.routers.drone-https.rule=Host(`drone.env.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.drone-https.service=api@internal"
+        - "traefik.http.routers.drone-https.service=drone"
         - "traefik.http.routers.drone-https.entrypoints=websecure"
         # Redirect
         - "traefik.http.routers.drone-http.middlewares=drone-redirectscheme"
@@ -77,12 +77,12 @@ services:
         - "traefik.http.services.drone-runner-docker.loadbalancer.server.port=3000"
         # HTTP
         - "traefik.http.routers.drone-runner-docker-http.rule=Host(`docker.drone.env.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.drone-runner-docker-http.service=runner-docker"
+        - "traefik.http.routers.drone-runner-docker-http.service=drone-runner-docker"
         - "traefik.http.routers.drone-runner-docker-http.entrypoints=web"
         # # HTTPS
         - "traefik.http.routers.drone-runner-docker-https.tls.certresolver=le"
         - "traefik.http.routers.drone-runner-docker-https.rule=Host(`docker.drone.env.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.drone-runner-docker-https.service=runner-docker"
+        - "traefik.http.routers.drone-runner-docker-https.service=drone-runner-docker"
         - "traefik.http.routers.drone-runner-docker-https.entrypoints=websecure"
         # Redirect
         - "traefik.http.routers.drone-runner-docker-http.middlewares=drone-runner-docker-redirectscheme"
@@ -122,12 +122,12 @@ services:
         - "traefik.http.services.drone-runner-ssh.loadbalancer.server.port=3000"
         # HTTP
         - "traefik.http.routers.drone-runner-ssh-http.rule=Host(`ssh.drone.env.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.drone-runner-ssh-http.service=runner-ssh"
+        - "traefik.http.routers.drone-runner-ssh-http.service=drone-runner-ssh"
         - "traefik.http.routers.drone-runner-ssh-http.entrypoints=web"
         # # HTTPS
         - "traefik.http.routers.drone-runner-ssh-https.tls.certresolver=le"
         - "traefik.http.routers.drone-runner-ssh-https.rule=Host(`ssh.drone.env.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.drone-runner-ssh-https.service=runner-ssh"
+        - "traefik.http.routers.drone-runner-ssh-https.service=drone-runner-ssh"
         - "traefik.http.routers.drone-runner-ssh-https.entrypoints=websecure"
         # Redirect
         - "traefik.http.routers.drone-runner-ssh-http.middlewares=drone-runner-ssh-redirectscheme"
