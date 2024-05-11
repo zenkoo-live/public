@@ -1,0 +1,143 @@
+version: "3.9"
+services:
+  # Drone
+  server:
+    image: drone/drone:latest
+    networks:
+      - herewe-net
+    environment:
+      DRONE_GITHUB_CLIENT_ID: Ov23liFX8dQ6MhtkOUUv
+      DRONE_GITHUB_CLIENT_SECRET: 2fa1742796f891d60dfb0ab7de8123d3afd3a5fa
+      DRONE_RPC_SECRET: 5b7ccd553c312f6db944ce678bbedef6
+      DRONE_SERVER_HOST: drone.dev.zenkoo.herewe.tech
+      DRONE_SERVER_PROTO: https
+      DRONE_USER_CREATE: username:drnp,admin:true
+
+      DRONE_DATABASE_DRIVER: postgres
+      DRONE_DATABASE_DATASOURCE: postgres://drone:hello.herewe.drone@172.18.0.1:5432/drone?sslmode=disable
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.drone.loadbalancer.server.port=80"
+        # HTTP
+        - "traefik.http.routers.drone-http.rule=Host(`drone.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.drone-http.service=api@internal"
+        - "traefik.http.routers.drone-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.drone-https.tls.certresolver=le"
+        - "traefik.http.routers.drone-https.rule=Host(`drone.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.drone-https.service=api@internal"
+        - "traefik.http.routers.drone-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.drone-http.middlewares=drone-redirectscheme"
+        - "traefik.http.middlewares.drone-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.drone-redirectscheme.redirectscheme.permanent=true"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  runner-docker:
+    image: drone/drone-runner-docker:latest
+    depends_on:
+      - server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    networks:
+      - herewe-net
+    environment:
+      DRONE_RPC_PROTO: http
+      DRONE_RPC_SECRET: 5b7ccd553c312f6db944ce678bbedef6
+      DRONE_RPC_HOST: drone_server
+      DRONE_RUNNER_NAME: local-docker
+      DRONE_RUNNER_CAPACITY: 5
+      DRONE_UI_USERNAME: herewe
+      DRONE_UI_PASSWORD: hello.herewe
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.drone-runner-docker.loadbalancer.server.port=3000"
+        # HTTP
+        - "traefik.http.routers.drone-runner-docker-http.rule=Host(`docker.drone.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.drone-runner-docker-http.service=api@internal"
+        - "traefik.http.routers.drone-runner-docker-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.drone-runner-docker-https.tls.certresolver=le"
+        - "traefik.http.routers.drone-runner-docker-https.rule=Host(`docker.drone.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.drone-runner-docker-https.service=api@internal"
+        - "traefik.http.routers.drone-runner-docker-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.drone-runner-docker-http.middlewares=drone-runner-docker-redirectscheme"
+        - "traefik.http.middlewares.drone-runner-docker-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.drone-runner-docker-redirectscheme.redirectscheme.permanent=true"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  runner-ssh:
+    image: drone/drone-runner-ssh:latest
+    depends_on:
+      - server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    networks:
+      - herewe-net
+    environment:
+      DRONE_RPC_PROTO: http
+      DRONE_RPC_SECRET: 5b7ccd553c312f6db944ce678bbedef6
+      DRONE_RPC_HOST: drone_server
+      DRONE_UI_USERNAME: herewe
+      DRONE_UI_PASSWORD: hello.herewe
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.drone-runner-ssh.loadbalancer.server.port=3000"
+        # HTTP
+        - "traefik.http.routers.drone-runner-ssh-http.rule=Host(`ssh.drone.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.drone-runner-ssh-http.service=api@internal"
+        - "traefik.http.routers.drone-runner-ssh-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.drone-runner-ssh-https.tls.certresolver=le"
+        - "traefik.http.routers.drone-runner-ssh-https.rule=Host(`ssh.drone.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.drone-runner-ssh-https.service=api@internal"
+        - "traefik.http.routers.drone-runner-ssh-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.drone-runner-ssh-http.middlewares=drone-runner-ssh-redirectscheme"
+        - "traefik.http.middlewares.drone-runner-ssh-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.drone-runner-ssh-redirectscheme.redirectscheme.permanent=true"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+networks:
+  herewe-net:
+    external: true
