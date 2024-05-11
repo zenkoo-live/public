@@ -9,7 +9,7 @@ services:
       DRONE_GITHUB_CLIENT_ID: Ov23liFX8dQ6MhtkOUUv
       DRONE_GITHUB_CLIENT_SECRET: 2fa1742796f891d60dfb0ab7de8123d3afd3a5fa
       DRONE_RPC_SECRET: 5b7ccd553c312f6db944ce678bbedef6
-      DRONE_SERVER_HOST: drone.dev.zenkoo.herewe.tech
+      DRONE_SERVER_HOST: drone.env.zenkoo.herewe.tech
       DRONE_SERVER_PROTO: https
       DRONE_USER_CREATE: username:drnp,admin:true
 
