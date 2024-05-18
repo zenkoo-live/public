@@ -8,6 +8,8 @@ services:
     environment:
       ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
       ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.web.viewer
+    volumes:
+      - /data/zenkoo/logs/svc.web.viewer:/opt/zenkoo/logs
     deploy:
       mode: replicated
       update_config:
@@ -43,6 +45,8 @@ services:
     environment:
       ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
       ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.web.streamer
+    volumes:
+      - /data/zenkoo/logs/svc.web.streamer:/opt/zenkoo/logs
     deploy:
       mode: replicated
       update_config:
@@ -78,6 +82,8 @@ services:
     environment:
       ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
       ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.web.dashboard
+    volumes:
+      - /data/zenkoo/logs/svc.web.dashboard:/opt/zenkoo/logs
     deploy:
       mode: replicated
       update_config:
@@ -114,6 +120,8 @@ services:
     environment:
       ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
       ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.infra.setting
+    volumes:
+      - /data/zenkoo/logs/svc.infra.setting:/opt/zenkoo/logs
     deploy:
       mode: replicated
       update_config:
@@ -133,6 +141,8 @@ services:
     environment:
       ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
       ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.biz.account
+    volumes:
+      - /data/zenkoo/logs/svc.biz.account:/opt/zenkoo/logs
     deploy:
       mode: replicated
       update_config:
@@ -152,6 +162,8 @@ services:
     environment:
       ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
       ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.biz.gift
+    volumes:
+      - /data/zenkoo/logs/svc.biz.gift:/opt/zenkoo/logs
     deploy:
       mode: replicated
       update_config:
