@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  #Nats
+  # Nats (without jetstream)
   nats:
     image: nats:latest
     networks:
@@ -15,26 +15,48 @@ services:
         delay: 2s
       restart_policy:
         condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.nats.loadbalancer.server.port=8222"
+        # HTTP
+        - "traefik.http.routers.nats-http.rule=Host(`nats.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.nats-http.service=nats"
+        - "traefik.http.routers.nats-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.nats-https.tls.certresolver=le"
+        - "traefik.http.routers.nats-https.rule=Host(`nats.env.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.nats-https.service=nats"
+        - "traefik.http.routers.nats-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.nats-http.middlewares=nats-redirectscheme"
+        - "traefik.http.middlewares.nats-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.nats-redirectscheme.redirectscheme.permanent=true"
+        # Auth
+        - "traefik.http.routers.nats-https.middlewares=nats-auth"
+        - "traefik.http.middlewares.nats-auth.basicauth.users=herewe:$$apr1$$jLdnAN0h$$W7algjI5nCLeSUlyz9cu.0" # hello.herewe
 
   # Nats exporter
-  # nats-exporter:
-  #   image: noenv/nats-exporter:latest
-  #   networks:
-  #     - herewe-net
-  #   deploy:
-  #     mode: global
-  #     placement:
-  #       constraints:
-  #         - node.role == manager
-  #     update_config:
-  #       parallelism: 1
-  #       delay: 2s
-  #     restart_policy:
-  #       condition: on-failure
+  nats-exporter:
+    image: natsio/prometheus-nats-exporter:latest
+    command: "http://runtime_nats:8222"
+    networks:
+      - herewe-net
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
 
   # Redis
   redis:
     image: redis:alpine
+    volumes:
+      - /data/zenkoo/storage/redis/dump.rdb:/data/dump.rdb
     networks:
       - herewe-net
     deploy:

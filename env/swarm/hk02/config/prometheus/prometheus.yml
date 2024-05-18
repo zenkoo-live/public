@@ -59,3 +59,8 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ["runtime_memcached-exporter:9150"]
+
+  - job_name: "nats"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["runtime_prometheus-nats-exporter:7777"]
