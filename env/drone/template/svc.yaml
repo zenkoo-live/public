@@ -1,0 +1,41 @@
+# Zenkoo service drone template.
+kind: pipeline
+type: docker
+name: {{ .input.service }}
+steps:
+  - name: build
+    image: golang:alpine
+    commands:
+      - "apk add make git"
+      - "make"
+
+  - name: docker
+    image: plugins/docker:latest
+    settings:
+      username:
+        from_secret: docker_registry_tencent_username
+      password:
+        from_secret: docker_registry_tencent_password
+      repo: {{ .input.docker_repo }}
+      tags: latest
+      registry: hkccr.ccs.tencentyun.com
+
+  - name: deploy
+    image: appleboy/drone-ssh:latest
+    settings:
+      host:
+        - 54np-hk02.54np.com
+      username:
+        from_secret: ssh_54np_hk02_username
+      password:
+        from_secret: ssh_54np_hk02_password
+      port: 22
+      command_timeout: 5m
+      script:
+        - docker pull {{ .input.docker_repo }}:latest
+        - docker stack deploy --with-registry-auth --compose-file /data/zenkoo/share/public/env/swarm/hk02/compose/zenkoo.yaml zenkoo
+        - docker system prune --force
+
+trigger:
+  branch:
+    - develop
