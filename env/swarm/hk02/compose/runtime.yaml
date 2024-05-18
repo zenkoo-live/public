@@ -38,7 +38,7 @@ services:
   # Nats exporter
   nats-exporter:
     image: natsio/prometheus-nats-exporter:latest
-    command: "http://runtime_nats:8222"
+    command: "-varz http://localhost:5555 http://runtime_nats:8222"
     networks:
       - herewe-net
     deploy:
