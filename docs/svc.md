@@ -12,6 +12,7 @@
 1001|svc.infra.setting|配置服务|王龙
 3001|svc.biz.account|账号服务|张浩
 3002|svc.biz.gift|礼物服务|王雷云
+3003|svc.biz.room|房间服务|王雷云
 
 ## 添加服务流程
 
