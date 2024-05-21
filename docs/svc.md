@@ -10,8 +10,13 @@
 8002|svc.web.streamer|主播端BFF|商伟
 8003|svc.web.dashboard|管理后台BFF|商伟
 1001|svc.infra.setting|配置服务|王龙
+1002|svc.infra.static|静态资源存储|张浩
+1003|svc.infra.notifier|通知服务（邮件/短信/第三方推送）|王龙
 3001|svc.biz.account|账号服务|张浩
 3002|svc.biz.gift|礼物服务|王雷云
+3003|svc.biz.room|房间服务|王磊云
+3101|svc.biz.asset|资产服务|张志华
+3102|svc.biz.trade|订单服务|张志华
 
 ## 添加服务流程
 
@@ -164,8 +169,12 @@ svc.base自动scan配置原中的子集“base”，base支持如下格式：
 }
 ```
 
+### ORM Model
+
 ### 日志
 
 ### Proto
+
+### 错误码
 
 ## 部署
