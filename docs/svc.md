@@ -15,8 +15,9 @@
 3001|svc.biz.account|账号服务|张浩
 3002|svc.biz.gift|礼物服务|王雷云
 3003|svc.biz.room|房间服务|王磊云
+3004|svc.biz.org|组织|张浩
 3101|svc.biz.asset|资产服务|张志华
-3102|svc.biz.trade|订单服务|张志华
+3102|svc.biz.trade|交易服务|张志华
 
 ## 添加服务流程
 
