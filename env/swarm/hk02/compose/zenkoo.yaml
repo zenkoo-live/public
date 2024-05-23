@@ -134,6 +134,48 @@ services:
       options:
         loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
 
+  svc_infra_static:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.infra.static:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.infra.static
+    volumes:
+      - /data/zenkoo/logs/svc.infra.static:/opt/zenkoo/logs
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_infra_notifier:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.infra.notifier:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.infra.notifier
+    volumes:
+      - /data/zenkoo/logs/svc.infra.notifier:/opt/zenkoo/logs
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
   svc_biz_account:
     image: hkccr.ccs.tencentyun.com/zenkoo/svc.biz.account:latest
     networks:
@@ -176,7 +218,6 @@ services:
       options:
         loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
 
-
   svc_biz_room:
     image: hkccr.ccs.tencentyun.com/zenkoo/svc.biz.room:latest
     networks:
@@ -197,6 +238,70 @@ services:
       driver: loki
       options:
         loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_biz_org:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.biz.org:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.biz.org
+    volumes:
+      - /data/zenkoo/logs/svc.biz.org:/opt/zenkoo/logs
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_biz_trade:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.biz.trade:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.biz.trade
+    volumes:
+      - /data/zenkoo/logs/svc.biz.trade:/opt/zenkoo/logs
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_biz_asset:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.biz.asset:latest
+    networks:
+      - herewe-net
+    environment:
+      ZENKOO_CONFIG_CONSUL_ADDRESS: runtime_consul:8500
+      ZENKOO_CONFIG_CONSUL_PREFIX: /zenkoo/config/svc.biz.asset
+    volumes:
+      - /data/zenkoo/logs/svc.biz.asset:/opt/zenkoo/logs
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
 networks:
   herewe-net:
     external: true
