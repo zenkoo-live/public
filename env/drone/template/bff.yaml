@@ -1,7 +1,7 @@
 # Zenkoo service drone template.
 kind: pipeline
 type: docker
-name: {{ .input.service }}
+name: "{{ .input.service }}@develop"
 steps:
   - name: build
     image: golang:alpine
@@ -18,7 +18,61 @@ steps:
       password:
         from_secret: docker_registry_tencent_password
       repo: {{ .input.docker_repo }}
-      tags: latest
+      tags: develop
+      registry: hkccr.ccs.tencentyun.com
+
+  - name: deploy
+    image: appleboy/drone-scp:latest
+    settings:
+      host: herewe-q100.54np.com
+      username:
+        from_secret: ssh_herewe_q100_username
+      password:
+        from_secret: ssh_herewe_q100_password
+      port: 22
+      target: /opt/zenkoo/${DRONE_REPO_NAME}
+      source: bin/svc
+
+  - name: run
+    image: appleboy/drone-ssh:latest
+    settings:
+      host:
+        - herewe-q100.54np.com
+      username:
+        from_secret: ssh_herewe_q100_username
+      password:
+        from_secret: ssh_herewe_q100_password
+      port: 22
+      command_timeout: 5m
+      script:
+        - sudo /bin/systemctl restart zenkoo_{{ .input.service }}.service
+
+trigger:
+  branch:
+    - develop
+
+---
+
+kind: pipeline
+type: docker
+name: "{{ .imput.service }}@testing"
+steps:
+  - name: build
+    image: golang:alpine
+    commands:
+      - "apk add make git"
+      - "make swag"
+      - "make"
+
+  - name: docker
+    image: plugins/docker:latest
+    settings:
+      username:
+        from_secret: docker_registry_tencent_username
+      password:
+        from_secret: docker_registry_tencent_password
+      repo: {{ .input.docker_repo }}
+      tags: testing
       registry: hkccr.ccs.tencentyun.com
 
   - name: deploy
@@ -33,10 +87,43 @@ steps:
       port: 22
       command_timeout: 5m
       script:
-        - docker pull {{ .input.docker_repo }}:latest
+        - docker pull {{ .input.docker_repo }}:testing
+        - docker system prune --force
+
+  - name: run
+    image: appleboy/drone-ssh:latest
+    settings:
+      host:
+        - 54np-hk02.54np.com
+      username:
+        from_secret: ssh_54np_hk02_username
+      password:
+        from_secret: ssh_54np_hk02_password
+      port: 22
+      command_timeout: 5m
+      script:
         - docker stack deploy --with-registry-auth --compose-file /data/zenkoo/share/public/env/swarm/hk02/compose/zenkoo.yaml zenkoo
         - docker system prune --force
 
 trigger:
   branch:
-    - develop
+    - testing
+
+---
+
+kind: pipeline
+type: docker
+name: "{{ .input.service}}@main"
+steps:
+  - name: codeup
+    image: appleboy/drone-git-push
+    settings:
+      branch: main
+      remote: ssh://git@codeup.aliyun.com/zenkoo/go/${DRONE_REPO_NAME}.git
+      force: true
+      ssh_key:
+        from_secret: ssh_codeup_private_key
+
+trigger:
+  branch:
+    - main
