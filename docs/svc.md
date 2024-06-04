@@ -6,20 +6,20 @@
 
 服务ID|服务名|说明|负责人
 ---|---|---|---
-8001|svc.web.viewer|直播用户端BFF|王龙
-8002|svc.web.streamer|主播端BFF|王龙
-8003|svc.web.dashboard|管理后台BFF|商伟
-1001|svc.infra.setting|配置服务|王龙
+8001|svc.web.viewer|直播用户端BFF|202
+8002|svc.web.streamer|主播端BFF|202
+8003|svc.web.dashboard|管理后台BFF|103
+1001|svc.infra.setting|配置服务|202
 1002|svc.infra.static|静态资源存储|战旗团队
 1003|svc.infra.notifier|通知服务（邮件/短信/第三方推送）|战旗团队
-3001|svc.biz.account|账号服务|张浩
-3002|svc.biz.gift|礼物服务|王雷云
-3003|svc.biz.room|房间服务|王磊云
-3004|svc.biz.org|组织|张浩
-3005|svc.biz.relation|关系|王雷云
-3006|svc.biz.log|操作日志|王磊云
-3101|svc.biz.asset|资产服务|张志华
-3102|svc.biz.trade|交易服务|张志华
+3001|svc.biz.account|账号服务|101
+3002|svc.biz.gift|礼物服务|102
+3003|svc.biz.room|房间服务|102
+3004|svc.biz.org|组织|101
+3005|svc.biz.relation|关系|102
+3006|svc.biz.log|操作日志|102
+3101|svc.biz.asset|资产服务|-
+3102|svc.biz.trade|交易服务|-
 
 ## 添加服务流程
 
@@ -328,6 +328,10 @@ Drone CI已配置，当push代码到testing分支时，drone将正常使用golan
 Drone在推送镜像后，尝试远程连接测试服务器，刷新swarm中的zenkoo stack（这里是要刷新zenkoo中的所有service）。
 
 Testing环境中的服务，除bff外，不能直接远程访问。
+
+### main分支
+
+Drone CI已配置，当push代码到main分支时，代码自动同步到codeup对应仓库。
 
 ### 调试
 
