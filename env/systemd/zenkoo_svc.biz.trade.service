@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.biz.trade
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.biz.trade
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.biz.trade
+ExecStart=/opt/zenkoo/svc.biz.trade/bin/svc
+PIDFile=/run/zenkoo/svc.biz.trade.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target

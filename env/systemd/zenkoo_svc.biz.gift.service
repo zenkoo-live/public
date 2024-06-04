@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.biz.gift
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.biz.gift
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.biz.gift
+ExecStart=/opt/zenkoo/svc.biz.gift/bin/svc
+PIDFile=/run/zenkoo/svc.biz.gift.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target

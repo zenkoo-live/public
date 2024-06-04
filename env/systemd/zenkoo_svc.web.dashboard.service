@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.web.dashboard
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.web.dashboard
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.web.dashboard
+ExecStart=/opt/zenkoo/svc.web.dashboard/bin/svc
+PIDFile=/run/zenkoo/svc.web.dashboard.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target

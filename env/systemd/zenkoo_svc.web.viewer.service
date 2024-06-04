@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.web.viewer
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.web.viewer
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.web.viewer
+ExecStart=/opt/zenkoo/svc.web.viewer/bin/svc
+PIDFile=/run/zenkoo/svc.web.viewer.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.infra.notifier
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.infra.notifier
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.infra.notifier
+ExecStart=/opt/zenkoo/svc.infra.notifier/bin/svc
+PIDFile=/run/zenkoo/svc.infra.notifier.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target

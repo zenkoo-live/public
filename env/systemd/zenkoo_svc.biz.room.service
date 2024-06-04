@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.biz.room
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.biz.room
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.biz.room
+ExecStart=/opt/zenkoo/svc.biz.room/bin/svc
+PIDFile=/run/zenkoo/svc.biz.room.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target

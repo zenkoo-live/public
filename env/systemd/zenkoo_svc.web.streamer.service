@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.web.streamer
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.web.streamer
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.web.streamer
+ExecStart=/opt/zenkoo/svc.web.streamer/bin/svc
+PIDFile=/run/zenkoo/svc.web.streamer.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target

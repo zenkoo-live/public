@@ -1,0 +1,16 @@
+[Unit]
+Description=zenkoo_svc.biz.asset
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zenkoo/svc.biz.asset
+Environment=ZENKOO_CONFIG_CONSUL_PREFIX=/zenkoo/config/svc.biz.asset
+ExecStart=/opt/zenkoo/svc.biz.asset/bin/svc
+PIDFile=/run/zenkoo/svc.biz.asset.pid
+Restart=always
+User=ci
+Group=ci
+
+[Install]
+WantedBy=multi-user.target
