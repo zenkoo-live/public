@@ -22,13 +22,13 @@ services:
         - "traefik.http.services.svc_web_viewer.loadbalancer.server.port=9990"
         # HTTP
         #- "traefik.http.routers.svc_web_viewer-http.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.svc_web_viewer-http.rule=Host(`dev.viewer.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.svc_web_viewer-http.rule=Host(`viewer.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.svc_web_viewer-http.service=svc_web_viewer"
         - "traefik.http.routers.svc_web_viewer-http.entrypoints=web"
         # # HTTPS
         - "traefik.http.routers.svc_web_viewer-https.tls.certresolver=le"
         #- "traefik.http.routers.svc_web_viewer-https.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.svc_web_viewer-https.rule=Host(`dev.viewer.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.svc_web_viewer-https.rule=Host(`viewer.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.svc_web_viewer-https.service=svc_web_viewer"
         - "traefik.http.routers.svc_web_viewer-https.entrypoints=websecure"
         # Redirect
@@ -61,13 +61,13 @@ services:
         - "traefik.http.services.svc_web_streamer.loadbalancer.server.port=9990"
         # HTTP
         #- "traefik.http.routers.svc_web_streamer-http.rule=Host(`api.streamer.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.svc_web_streamer-http.rule=Host(`dev.streamer.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.svc_web_streamer-http.rule=Host(`streamer.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.svc_web_streamer-http.service=svc_web_streamer"
         - "traefik.http.routers.svc_web_streamer-http.entrypoints=web"
         # # HTTPS
         - "traefik.http.routers.svc_web_streamer-https.tls.certresolver=le"
         #- "traefik.http.routers.svc_web_streamer-https.rule=Host(`api.streamer.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.svc_web_streamer-https.rule=Host(`dev.streamer.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.svc_web_streamer-https.rule=Host(`streamer.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.svc_web_streamer-https.service=svc_web_streamer"
         - "traefik.http.routers.svc_web_streamer-https.entrypoints=websecure"
         # Redirect
@@ -100,13 +100,13 @@ services:
         - "traefik.http.services.svc_web_dashboard.loadbalancer.server.port=9990"
         # HTTP
         #- "traefik.http.routers.svc_web_dashboard-http.rule=Host(`api.dashboard.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.svc_web_dashboard-http.rule=Host(`dev.dashboard.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.svc_web_dashboard-http.rule=Host(`dashboard.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.svc_web_dashboard-http.service=svc_web_dashboard"
         - "traefik.http.routers.svc_web_dashboard-http.entrypoints=web"
         # # HTTPS
         - "traefik.http.routers.svc_web_dashboard-https.tls.certresolver=le"
         #- "traefik.http.routers.svc_web_dashboard-https.rule=Host(`api.dashboard.zenkoo.herewe.tech`)"
-        - "traefik.http.routers.svc_web_dashboard-https.rule=Host(`dev.dashboard.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.svc_web_dashboard-https.rule=Host(`dashboard.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.svc_web_dashboard-https.service=svc_web_dashboard"
         - "traefik.http.routers.svc_web_dashboard-https.entrypoints=websecure"
         # Redirect
