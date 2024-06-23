@@ -59,7 +59,7 @@ services:
       DRONE_RPC_SECRET: 5b7ccd553c312f6db944ce678bbedef6
       DRONE_RPC_HOST: drone_server
       DRONE_RUNNER_NAME: local-docker
-      DRONE_RUNNER_CAPACITY: 5
+      DRONE_RUNNER_CAPACITY: 2
       DRONE_UI_USERNAME: herewe
       DRONE_UI_PASSWORD: hello.herewe
     deploy:
