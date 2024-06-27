@@ -12,14 +12,17 @@
 1001|svc.infra.setting|配置服务|202
 1002|svc.infra.static|静态资源存储|战旗团队
 1003|svc.infra.notifier|通知服务（邮件/短信/第三方推送）|战旗团队
+1004|svc.infra.generator|生成器（ID等）|101
 3001|svc.biz.account|账号服务|101
 3002|svc.biz.gift|礼物服务|102
 3003|svc.biz.room|房间服务|102
-3004|svc.biz.org|组织|101
+3004|svc.biz.org|组织（商户、部门、工会）|101
 3005|svc.biz.relation|关系|102
 3006|svc.biz.log|操作日志|102
-3101|svc.biz.asset|资产服务|-
-3102|svc.biz.trade|交易服务|-
+3006|svc.biz.vip|贵族/粉丝|102
+3007|svc.biz.rank|排行榜|102
+3101|svc.biz.asset|资产服务|104
+3102|svc.biz.trade|交易服务|104
 
 ## 添加服务流程
 
