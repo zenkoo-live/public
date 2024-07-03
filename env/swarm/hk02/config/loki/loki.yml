@@ -1,5 +1,8 @@
 auth_enabled: false
 
+common:
+  path_prefix: /loki
+
 server:
   http_listen_port: 3100
 
@@ -27,7 +30,7 @@ schema_config:
 storage_config:
   tsdb_shipper:
     active_index_directory: /loki/tsdb-index
-    cache_location: /data/tsdb-cache
+    cache_location: /loki/tsdb-cache
   boltdb:
     directory: /loki/index
   filesystem:
