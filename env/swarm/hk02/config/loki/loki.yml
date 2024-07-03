@@ -19,12 +19,15 @@ schema_config:
     - from: 2020-01-01
       store: tsdb
       object_store: filesystem
-      schema: v11
+      schema: v13 
       index:
         prefix: index_
         period: 24h
 
 storage_config:
+  tsdb_shipper:
+    active_index_directory: /loki/tsdb-index
+    cache_location: /data/tsdb-cache
   boltdb:
     directory: /loki/index
   filesystem:
