@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  hub:
+    image: registry:latest
+    networks:
+      - herewe-net
+    volumes:
+      - /data/docker/hub:/data
+    environment:
+      REGISTRY_REDIS_ADDR: runtime_redis:6379
+      REGISTRY_REDIS_DB: 1
+      REGISTRY_PROXY_REMOTEURL: https://registry-1.docker.io
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+    deploy:
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.docker-hub.loadbalancer.server.port=5000"
+        - "traefik.http.routers.docker-hub.rule=Host(`hub.docker.hk02.herewe.tech`)"
+        - "traefik.http.routers.docker-hub.entrypoints=websecure"
+        - "traefik.http.routers.docker-hub.tls.certresolver=le"
+        - "traefik.http.routers.docker-hub.middlewares=docker-hub-gzip"
+        - "traefik.http.middlewares.docker-hub-gzip.compress=true"
+        # Redirect
+        - "traefik.http.routers.docker-hub-http.rule=Host(`hub.docker.hk02.herewe.tech`)"
+        - "traefik.http.routers.docker-hub-http.entrypoints=web"
+        - "traefik.http.routers.docker-hub-http.middlewares=docker-hub-https"
+        - "traefik.http.middlewares.docker-hub-https.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.docker-hub-https.redirectscheme.permanent=true"
+
+networks:
+  herewe-net:
+    external: true
