@@ -455,6 +455,71 @@ services:
       options:
         loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
 
+  svc_infra_link_center:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.infra.link:testing
+    command: /opt/zenkoo/center
+    networks:
+      - herewe-net
+    environment:
+      MICRO_REGISTRY: consul
+      MICRO_REGISTRY_ADDRESS: runtime_consul:8500
+      ZENKOO_TOKEN: zenkoo
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_infra_link_stat:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.infra.link:testing
+    command: /opt/zenkoo/stat
+    networks:
+      - herewe-net
+    environment:
+      MICRO_REGISTRY: consul
+      MICRO_REGISTRY_ADDRESS: runtime_consul:8500
+      ZENKOO_TOKEN: zenkoo
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+  svc_infra_link_ws:
+    image: hkccr.ccs.tencentyun.com/zenkoo/svc.infra.link:testing
+    command: /opt/zenkoo/ws
+    networks:
+      - herewe-net
+    ports:
+      - 8080:8080
+    environment:
+      MICRO_REGISTRY: consul
+      MICRO_REGISTRY_ADDRESS: runtime_consul:8500
+      ZENKOO_TOKEN: zenkoo
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
 networks:
   herewe-net:
     external: true
