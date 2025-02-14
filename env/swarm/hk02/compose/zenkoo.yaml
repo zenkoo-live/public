@@ -461,6 +461,8 @@ services:
     networks:
       - herewe-net
     environment:
+      MICRO_BROKER: nats
+      MICRO_BROERR_ADDRESS: runtime_nats:4222
       MICRO_REGISTRY: consul
       MICRO_REGISTRY_ADDRESS: runtime_consul:8500
       ZENKOO_TOKEN: zenkoo
@@ -482,6 +484,8 @@ services:
     networks:
       - herewe-net
     environment:
+      MICRO_BROKER: nats
+      MICRO_BROERR_ADDRESS: runtime_nats:4222
       MICRO_REGISTRY: consul
       MICRO_REGISTRY_ADDRESS: runtime_consul:8500
       ZENKOO_TOKEN: zenkoo
@@ -505,6 +509,8 @@ services:
     ports:
       - 8080:8080
     environment:
+      MICRO_BROKER: nats
+      MICRO_BROERR_ADDRESS: runtime_nats:4222
       MICRO_REGISTRY: consul
       MICRO_REGISTRY_ADDRESS: runtime_consul:8500
       ZENKOO_TOKEN: zenkoo
