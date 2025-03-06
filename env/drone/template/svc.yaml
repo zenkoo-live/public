@@ -30,7 +30,7 @@ steps:
         from_secret: ssh_herewe_q100_password
       port: 22
       target: /opt/zenkoo/${DRONE_REPO_NAME}
-      source: bin/svc
+      source: bin/*
 
   - name: run
     image: appleboy/drone-ssh:latest
