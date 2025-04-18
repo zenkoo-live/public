@@ -526,6 +526,36 @@ services:
       options:
         loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
 
+  web_mobile_client:
+    image: hkccr.ccs.tencentyun.com/zenkoo/web.mobile.client:testing
+    networks:
+      - herewe-net
+    deploy:
+      mode: replicated
+      update_config:
+        parallelism: 1
+        delay: 2s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.web_mobile_client.loadbalancer.server.port=80"
+        # HTTP
+        #- "traefik.http.routers.web_mobile_client-http.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.web_mobile_client-http.rule=Host(`web.test.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.web_mobile_client-http.service=web_mobile_client"
+        - "traefik.http.routers.web_mobile_client-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.web_mobile_client-https.tls.certresolver=le"
+        #- "traefik.http.routers.web_mobile_client-https.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.web_mobile_client-https.rule=Host(`web.test.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.web_mobile_client-https.service=web_mobile_client"
+        - "traefik.http.routers.web_mobile_client-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.web_mobile_client-http.middlewares=web_mobile_client-redirectscheme"
+        - "traefik.http.middlewares.web_mobile_client-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.web_mobile_client-redirectscheme.redirectscheme.permanent=true"
+
 networks:
   herewe-net:
     external: true
