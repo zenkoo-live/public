@@ -521,6 +521,24 @@ services:
         delay: 2s
       restart_policy:
         condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.link_ws.loadbalancer.server.port=8080"
+        # HTTP
+        #- "traefik.http.routers.link_ws-http.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.link_ws-http.rule=Host(`ws.test.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.link_ws-http.service=link_ws"
+        - "traefik.http.routers.link_ws-http.entrypoints=web"
+        # # HTTPS
+        - "traefik.http.routers.link_ws-https.tls.certresolver=le"
+        #- "traefik.http.routers.link_ws-https.rule=Host(`api.viewer.zenkoo.herewe.tech`)"
+        - "traefik.http.routers.link_ws-https.rule=Host(`ws.test.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.link_ws-https.service=link_ws"
+        - "traefik.http.routers.link_ws-https.entrypoints=websecure"
+        # Redirect
+        - "traefik.http.routers.link_ws-http.middlewares=link_ws-redirectscheme"
+        - "traefik.http.middlewares.link_ws-redirectscheme.redirectscheme.scheme=https"
+        - "traefik.http.middlewares.link_ws-redirectscheme.redirectscheme.permanent=true"
     logging:
       driver: loki
       options:
