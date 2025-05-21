@@ -27,7 +27,7 @@ scrape_configs:
     dns_sd_configs:
       - names:
         - 'tasks.env_node-exporter'
-        type: 'A'
+        type: 'SRV'
         port: 9100
 
   - job_name: "traefik"
@@ -39,11 +39,6 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ["runtime_postgres-exporter:9187"]
-
-  - job_name: "minio"
-    scrape_interval: 5s
-    static_configs:
-      - targets: ["env_minio:9000"]
 
   - job_name: "consul"
     scrape_interval: 5s
