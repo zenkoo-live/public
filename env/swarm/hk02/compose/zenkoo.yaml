@@ -12,6 +12,9 @@ services:
       - /data/zenkoo/logs/svc.web.viewer:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -51,6 +54,9 @@ services:
       - /data/zenkoo/logs/svc.web.streamer:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -90,6 +96,9 @@ services:
       - /data/zenkoo/logs/svc.web.dashboard:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -130,6 +139,9 @@ services:
       - /data/zenkoo/logs/svc.infra.setting:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -151,6 +163,9 @@ services:
       - /data/zenkoo/logs/svc.infra.static:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -172,6 +187,9 @@ services:
       - /data/zenkoo/logs/svc.infra.notifier:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -193,6 +211,9 @@ services:
       - /data/zenkoo/logs/svc.biz.account:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -214,6 +235,9 @@ services:
       - /data/zenkoo/logs/svc.biz.gift:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -235,6 +259,9 @@ services:
       - /data/zenkoo/logs/svc.biz.room:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -256,6 +283,9 @@ services:
       - /data/zenkoo/logs/svc.biz.org:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -277,6 +307,9 @@ services:
       - /data/zenkoo/logs/svc.biz.trade:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -298,6 +331,9 @@ services:
       - /data/zenkoo/logs/svc.biz.asset:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -319,6 +355,9 @@ services:
       - /data/zenkoo/logs/svc.biz.relation:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -340,6 +379,9 @@ services:
       - /data/zenkoo/logs/svc.biz.log:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -361,6 +403,9 @@ services:
       - /data/zenkoo/logs/svc.biz.vip:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -382,6 +427,9 @@ services:
       - /data/zenkoo/logs/svc.biz.rank:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -403,6 +451,9 @@ services:
       - /data/zenkoo/logs/svc.infra.generator:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -424,6 +475,9 @@ services:
       - /data/zenkoo/logs/svc.infra.list:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -445,6 +499,9 @@ services:
       - /data/zenkoo/logs/svc.infra.pay:/opt/zenkoo/logs
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -468,6 +525,9 @@ services:
       ZENKOO_TOKEN: zenkoo
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -491,6 +551,9 @@ services:
       ZENKOO_TOKEN: zenkoo
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -516,6 +579,9 @@ services:
       ZENKOO_TOKEN: zenkoo
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
@@ -550,6 +616,9 @@ services:
       - herewe-net
     deploy:
       mode: replicated
+      placement:
+        constraints:
+          - node.role == worker
       update_config:
         parallelism: 1
         delay: 2s
