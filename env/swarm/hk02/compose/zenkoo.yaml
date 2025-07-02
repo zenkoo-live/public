@@ -659,12 +659,12 @@ services:
         - "traefik.enable=true"
         - "traefik.http.services.web_dashboard.loadbalancer.server.port=80"
         # HTTP
-        - "traefik.http.routers.web_dashboard-http.rule=Host(`dashboard.test.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.web_dashboard-http.rule=Host(`admin.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.web_dashboard-http.service=web_dashboard"
         - "traefik.http.routers.web_dashboard-http.entrypoints=web"
         # # HTTPS
         - "traefik.http.routers.web_dashboard-https.tls.certresolver=le"
-        - "traefik.http.routers.web_dashboard-https.rule=Host(`dashboard.test.zenkoo.weiapi.net`)"
+        - "traefik.http.routers.web_dashboard-https.rule=Host(`admin.test.zenkoo.weiapi.net`)"
         - "traefik.http.routers.web_dashboard-https.service=web_dashboard"
         - "traefik.http.routers.web_dashboard-https.entrypoints=websecure"
         # Redirect
